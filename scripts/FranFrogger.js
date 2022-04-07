@@ -19,32 +19,13 @@ function init() {
   // Froggy1 appear
   // In the end 3 froggy classes that deploy at different points
   const froggyClass = 'froggy'
-  const startPosition = 0
+  const startPosition = 104
   let currentPosition = startPosition
 
-
-
-  // ? Executions
-
-  // * Set up grid creation
-  // Can't get it to do 10 x 11!!!!!
-  function createGrid(){
-    for (let i = 0; i < cellCount; i++){
-      console.log('Cell created')
-      const cell = document.createElement('div')
-      cell.innerText = i
-      cell.id = i
-      grid.appendChild(cell)
-      cells.push(cell)
-    }
-
-    addFroggy(startPosition)
-  }
-
-  
+  console.log('startPosition --->', startPosition)
+  console.log('currentPosition --->', currentPosition)
 
   // * Add froggy1
-
   function addFroggy(position){
     cells[position].classList.add(froggyClass)
   }
@@ -54,6 +35,44 @@ function init() {
     cells[position].classList.remove(froggyClass)
   }
 
+
+
+  // * Collider set up
+  // Colldier1 appear
+  const colliderClass = 'collider'
+  const colliderStart = 84
+  // let colliderCurrent = colliderStart // This is for collider movement later on //
+  const collisionPopup = document.querySelector('.bang-popup')
+  const collisionButton = document.querySelector('#close-btn')
+
+
+
+  // * Add collider
+  function addCollider(position){
+    cells[position].classList.add(colliderClass)
+  }
+
+
+  // ? Executions
+
+  // * Set up grid creation
+  
+  function createGrid(){
+    for (let i = 0; i < cellCount; i++){
+      console.log('Cell created')
+      const cell = document.createElement('div')
+      cell.innerText = i
+      cell.id = i
+      grid.appendChild(cell)
+      cells.push(cell)
+    }
+    
+
+    addFroggy(startPosition)
+    addCollider(colliderStart)
+    console.log(addCollider)
+  }
+  createGrid()
 
 
   // * Movement function
@@ -85,9 +104,36 @@ function init() {
       console.log('INVALID KEY')
     }
 
-    // Add froggy to new position
+    // Add froggy to new position + adds one collider
     addFroggy(currentPosition)
+    collisionDetection()
   }
+
+
+
+  // * Collision detection
+
+  function collisionDetection(){
+    if (currentPosition === colliderStart){
+      showPopUp()
+      console.log('BANG!')
+      console.log('collisionPopup--->', collisionPopup)
+      // So far this is tracking whether froggy and collider are in the same box
+    } else {
+      console.log('YOURE OK!')
+    }
+  }
+
+  function showPopUp(){
+    collisionPopup.style.display = 'block'
+  }
+
+  function hidePopUp(){
+    collisionPopup.style.display = 'none'
+    removeFroggy(currentPosition)
+    addFroggy(startPosition)
+  }
+  
 
 
   // ? Events
@@ -95,8 +141,8 @@ function init() {
   // * Key press
   document.addEventListener('keydown', handleKeyDown)
 
-  // * Grid creation
-  createGrid()
+  // * Close Collision Pop up
+  collisionButton.addEventListener('click', hidePopUp)
 
 }
 

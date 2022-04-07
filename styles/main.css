@@ -30,7 +30,6 @@ body {
   align-items: center;
   flex-wrap: wrap;
   height: 100%;
-
 /* CHANGE HEIGHT & WIDTH TO MORE APPROPRIATE */
   height: 800px;
   width: 1000px;
@@ -50,4 +49,52 @@ body {
   background-size: contain;
   background-position: center;
   cursor: pointer;
+}
+
+#grid div.collider{
+  background-color: blueviolet;
+}
+
+.bang-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid red;
+  border-radius: 10px;
+  background-color: rgb(255, 0, 123);
+  z-index: 10;
+  width: 500px;
+  height: 200px;
+  max-width: 80%;
+  
+  display: none;
+}
+
+#bang-message {
+  text-align: center;
+  padding-top: 50px;
+  color: white;
+  font-weight: bold;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* #BANG-overlay{
+  position: fixed;
+  /* opacity: 0; */
+  /* top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(240, 255, 0, .5);
+} */ 
+
+#close-btn{
+  cursor: pointer;
+  width: 100px;
+  text-align: center;
+  justify-content: center;
 }
