@@ -49,24 +49,51 @@ function init() {
     cells[position].classList.add(froggyClass)
   }
 
-
-  // // * Movement function
-
-  // function handleKeyDown(event){
-  //   // const key = event.keyCode
-  //   console.log(event.keyCode)
+  // * Remove froggy1
+  function removeFroggy(position){
+    cells[position].classList.remove(froggyClass)
+  }
 
 
 
-  // }
+  // * Movement function
 
-  // handleKeyDown(key)
+  function handleKeyDown(event){
+    const key = event.keyCode
+    const left = 37
+    const right = 39
+    const up = 38
+    const down = 40
+
+    // Remove froggy current position - removes any existing froggies
+    removeFroggy(currentPosition)
+
+    // Control flow for movement based on key direction
+    if (key === left){
+      console.log('MOVE LEFT')
+      currentPosition-- // position minus 1 grid box
+    } else if (key === right){
+      console.log('MOVE RIGHT')
+      currentPosition++ // position plus 1 grid box
+    } else if (key === up){
+      console.log('MOVE UP')
+      currentPosition -= width // position minus entire width = grid box above
+    } else if (key === down){
+      console.log('MOVE DOWN')
+      currentPosition += width
+    } else {
+      console.log('INVALID KEY')
+    }
+
+    // Add froggy to new position
+    addFroggy(currentPosition)
+  }
 
 
   // ? Events
 
   // * Key press
-  // document.addEventListener('keydown', handleKeyDown)
+  document.addEventListener('keydown', handleKeyDown)
 
   // * Grid creation
   createGrid()
