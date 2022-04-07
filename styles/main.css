@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Make flex class */
+/* .flex center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+
+
+
+
+body {
+  height: 100vh;
+  margin: 0 auto;
+}
+
+.grid-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100%;
+  height: 600px;
+  width: 800px;
+
+}
+
+#grid div{
+  border: 1px solid lightgray;
+  flex-grow: 1;
+  height: calc(100% / 10);
+  width: calc(100% / 11);
+}
+
+#grid div.froggy{
+  background-image: url('../assets/SriLanka.JPG');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+}
