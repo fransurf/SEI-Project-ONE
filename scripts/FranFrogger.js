@@ -43,6 +43,7 @@ function init() {
   const colliderStart = 84
   // let colliderCurrent = colliderStart // This is for collider movement later on //
   const collisionPopup = document.querySelector('.bang-popup')
+  const collisionOverlay = document.querySelector('#bang-overlay')
   const collisionButton = document.querySelector('#close-btn')
 
 
@@ -125,12 +126,16 @@ function init() {
   }
 
   function showPopUp(){
+    // disable character!!
     collisionPopup.style.display = 'block'
+    collisionOverlay.style.display = 'block'
   }
 
   function hidePopUp(){
     collisionPopup.style.display = 'none'
-    removeFroggy(currentPosition)
+    collisionOverlay.style.display = 'none'
+    // removeFroggy(currentPosition)
+    removeFroggy(startPosition)
     addFroggy(startPosition)
   }
   

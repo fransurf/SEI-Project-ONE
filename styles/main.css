@@ -71,9 +71,18 @@ body {
   display: none;
 }
 
+#bang-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
 #bang-message {
   text-align: center;
   padding-top: 50px;
+  padding-bottom: 30px;
   color: white;
   font-weight: bold;
   font-family: 'Courier New', Courier, monospace;
@@ -82,19 +91,20 @@ body {
   justify-content: center;
 }
 
-/* #BANG-overlay{
+#bang-overlay {
   position: fixed;
-  /* opacity: 0; */
-  /* top: 0;
+  opacity: 0.8;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   background-color: rgba(240, 255, 0, .5);
-} */ 
+  display: none;
+} 
 
 #close-btn{
   cursor: pointer;
-  width: 100px;
+  width: 150px;
   text-align: center;
   justify-content: center;
 }
