@@ -68,12 +68,19 @@ function init() {
       cells.push(cell)
     }
     
+  }
 
+  createGrid()
+  startGame()
+
+
+  // * Start game
+
+  function startGame(){
+    removeFroggy(currentPosition)
     addFroggy(startPosition)
     addCollider(colliderStart)
-    console.log(addCollider)
   }
-  createGrid()
 
 
   // * Movement function
@@ -105,7 +112,7 @@ function init() {
       console.log('INVALID KEY')
     }
 
-    // Add froggy to new position + adds one collider
+    // Add froggy to new position + adds collision detection (one collider)
     addFroggy(currentPosition)
     collisionDetection()
   }
@@ -119,7 +126,6 @@ function init() {
       showPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
-      // So far this is tracking whether froggy and collider are in the same box
     } else {
       console.log('YOURE OK!')
     }
@@ -135,8 +141,7 @@ function init() {
     collisionPopup.style.display = 'none'
     collisionOverlay.style.display = 'none'
     // removeFroggy(currentPosition)
-    removeFroggy(startPosition)
-    addFroggy(startPosition)
+    startGame()
   }
   
 
