@@ -6,11 +6,11 @@ function init() {
   const grid = document.querySelector('#grid')
 
   //* Grid creation
-  // Creating the grid - need 11 x 10 (w x h)
+  // Creating the grid - need 11 x 11
   // Having trouble so far!
-  const width = 10
-  // const height = 11
-  const cellCount = width * width
+  const width = 11
+  const height = 10
+  const cellCount = width * height
   const cells = []
 
 
@@ -69,16 +69,16 @@ function init() {
     removeFroggy(currentPosition)
 
     // Control flow for movement based on key direction
-    if (key === left){
+    if (key === left && (currentPosition % width !== 0)){
       console.log('MOVE LEFT')
       currentPosition-- // position minus 1 grid box
-    } else if (key === right){
+    } else if (key === right && (currentPosition % width !== (width - 1))){
       console.log('MOVE RIGHT')
       currentPosition++ // position plus 1 grid box
-    } else if (key === up){
+    } else if (key === up && (currentPosition >= width)){
       console.log('MOVE UP')
       currentPosition -= width // position minus entire width = grid box above
-    } else if (key === down){
+    } else if (key === down && (currentPosition + width <= cellCount - 1)){
       console.log('MOVE DOWN')
       currentPosition += width
     } else {
