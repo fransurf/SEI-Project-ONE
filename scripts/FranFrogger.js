@@ -13,7 +13,12 @@ function init() {
   const cellCount = width * height
   const cells = []
 
-
+  // * Home & obstacle set up
+  const homeClass = 'home'
+  const homePosition = [2, 5, 8] 
+  const obstacleClass = 'obstacle'
+  const obstaclePosition = [44, 47, 48, 50, 51, 54]
+  
 
   // * Character set up
   // Froggy1 appear
@@ -21,9 +26,6 @@ function init() {
   const froggyClass = 'froggy'
   const startPosition = 104
   let currentPosition = startPosition
-
-  console.log('startPosition --->', startPosition)
-  console.log('currentPosition --->', currentPosition)
 
   // * Add froggy1
   function addFroggy(position){
@@ -35,6 +37,10 @@ function init() {
     cells[position].classList.remove(froggyClass)
   }
 
+  // * Restart current position
+  // function restartCurrent(){
+  //   const currentPosition = startPosition
+  // }
 
 
   // * Collider set up
@@ -46,12 +52,11 @@ function init() {
   const collisionOverlay = document.querySelector('#bang-overlay')
   const collisionButton = document.querySelector('#close-btn')
 
-
-
   // * Add collider
   function addCollider(position){
     cells[position].classList.add(colliderClass)
   }
+
 
 
   // ? Executions
@@ -66,21 +71,42 @@ function init() {
       cell.id = i
       grid.appendChild(cell)
       cells.push(cell)
+      
+      // Set up for Home spaces
+      if (homePosition.includes(i)) {
+        console.log('true')
+        cells[i].classList.add(homeClass)
+      }
+
+      // Set up for obstacles
+      if (obstaclePosition.includes(i)) {
+        cells[i].classList.add(obstacleClass)
+      }
     }
     
   }
 
   createGrid()
-  startGame()
+  
+
 
 
   // * Start game
 
   function startGame(){
+    
     removeFroggy(currentPosition)
     addFroggy(startPosition)
+    // restartCurrent()
     addCollider(colliderStart)
+    // addHome(homePosition)
+    // addHome(homePosition[i])
+
+    console.log('startPosition --->', startPosition)
+    console.log('currentPosition --->', currentPosition)
   }
+
+  startGame()
 
 
   // * Movement function
@@ -123,12 +149,14 @@ function init() {
 
   function collisionDetection(){
     if (currentPosition === colliderStart){
+      removeFroggy(currentPosition)
       showPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
     } else {
       console.log('YOURE OK!')
     }
+
   }
 
   function showPopUp(){
@@ -140,7 +168,7 @@ function init() {
   function hidePopUp(){
     collisionPopup.style.display = 'none'
     collisionOverlay.style.display = 'none'
-    // removeFroggy(currentPosition)
+    removeFroggy(currentPosition)
     startGame()
   }
   
