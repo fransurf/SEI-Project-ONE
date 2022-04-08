@@ -17,7 +17,7 @@ function init() {
   const homeClass = 'home'
   const homePosition = [2, 5, 8] 
   const obstacleClass = 'obstacle'
-  const obstaclePosition = [44, 47, 48, 50, 51, 54]
+  const obstaclePosition = [45, 46, 49, 52, 53]
   
 
   // * Character set up
@@ -26,6 +26,8 @@ function init() {
   const froggyClass = 'froggy'
   const startPosition = 104
   let currentPosition = startPosition
+  const froggy2Start = 101
+  
 
   // * Add froggy1
   function addFroggy(position){
@@ -138,6 +140,7 @@ function init() {
     // Add froggy to new position + adds collision detection (one collider)
     addFroggy(currentPosition)
     collisionDetection()
+    froggyHome()
   }
 
 
@@ -167,6 +170,17 @@ function init() {
     collisionOverlay.style.display = 'none'
     removeFroggy(currentPosition)
     startGame()
+  }
+
+
+
+  // * Froggy gets Home
+  function froggyHome(){
+    if (homePosition.includes(currentPosition)){
+      console.log('YOU MADE IT!!!')
+      console.log('RELEASE THE HOUNDS!!!')
+      addFroggy(froggy2Start)
+    }
   }
   
 
