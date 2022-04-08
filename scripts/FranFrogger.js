@@ -65,7 +65,6 @@ function init() {
   
   function createGrid(){
     for (let i = 0; i < cellCount; i++){
-      console.log('Cell created')
       const cell = document.createElement('div')
       cell.innerText = i
       cell.id = i
@@ -74,10 +73,8 @@ function init() {
       
       // Set up for Home spaces
       if (homePosition.includes(i)) {
-        console.log('true')
         cells[i].classList.add(homeClass)
       }
-
       // Set up for obstacles
       if (obstaclePosition.includes(i)) {
         cells[i].classList.add(obstacleClass)
@@ -90,7 +87,6 @@ function init() {
   
 
 
-
   // * Start game
 
   function startGame(){
@@ -99,8 +95,7 @@ function init() {
     addFroggy(startPosition)
     // restartCurrent()
     addCollider(colliderStart)
-    // addHome(homePosition)
-    // addHome(homePosition[i])
+
 
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
@@ -109,10 +104,12 @@ function init() {
   startGame()
 
 
+
   // * Movement function
 
   function handleKeyDown(event){
     const key = event.keyCode
+    console.log(event.keyCode)
     const left = 37
     const right = 39
     const up = 38
@@ -122,16 +119,16 @@ function init() {
     removeFroggy(currentPosition)
 
     // Control flow for movement based on key direction
-    if (key === left && (currentPosition % width !== 0)){
+    if (key === left && (currentPosition % width !== 0) && (obstaclePosition.includes(currentPosition - 1) === false)){
       console.log('MOVE LEFT')
       currentPosition-- // position minus 1 grid box
-    } else if (key === right && (currentPosition % width !== (width - 1))){
+    } else if (key === right && (currentPosition % width !== (width - 1)) && (obstaclePosition.includes(currentPosition + 1) === false)){
       console.log('MOVE RIGHT')
       currentPosition++ // position plus 1 grid box
-    } else if (key === up && (currentPosition >= width)){
+    } else if (key === up && (currentPosition >= width) && (obstaclePosition.includes(currentPosition - width) === false)){
       console.log('MOVE UP')
       currentPosition -= width // position minus entire width = grid box above
-    } else if (key === down && (currentPosition + width <= cellCount - 1)){
+    } else if (key === down && (currentPosition + width <= cellCount - 1) && (obstaclePosition.includes(currentPosition + width) === false)){
       console.log('MOVE DOWN')
       currentPosition += width
     } else {
