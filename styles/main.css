@@ -32,8 +32,8 @@ body {
   flex-wrap: wrap;
   height: 100%;
 /* CHANGE HEIGHT & WIDTH TO MORE APPROPRIATE */
-  height: 800px;
-  width: 1000px;
+  height: 600px;
+  width: 800px;
   background: url(http://apod.nasa.gov/apod/image/0603/coma_misti.jpg);
 }
 

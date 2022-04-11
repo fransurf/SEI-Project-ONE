@@ -27,38 +27,16 @@ function init() {
   const startPosition = 104
   let currentPosition = startPosition
   const froggy2Start = 101
-  
-
-  // * Add froggy1
-  function addFroggy(position){
-    cells[position].classList.add(froggyClass)
-  }
-
-  // * Remove froggy1
-  function removeFroggy(position){
-    cells[position].classList.remove(froggyClass)
-  }
-
-  // * Restart current position
-  // function restartCurrent(){
-  //   const currentPosition = startPosition
-  // }
 
 
   // * Collider set up
   // Colldier1 appear
   const colliderClass = 'collider'
-  const colliderStart = 84
-  // let colliderCurrent = colliderStart // This is for collider movement later on //
+  const colliderStart = 87
+  let colliderCurrent = colliderStart
   const collisionPopup = document.querySelector('.bang-popup')
   const collisionOverlay = document.querySelector('#bang-overlay')
   const collisionButton = document.querySelector('#close-btn')
-
-  // * Add collider
-  function addCollider(position){
-    cells[position].classList.add(colliderClass)
-  }
-
 
 
   // ? Executions
@@ -87,6 +65,31 @@ function init() {
 
   createGrid()
   
+
+    // * Add froggy1
+    function addFroggy(position){
+      cells[position].classList.add(froggyClass)
+    }
+  
+    // * Remove froggy1
+    function removeFroggy(position){
+      cells[position].classList.remove(froggyClass)
+    }
+  
+    // * Restart current position
+    // function restartCurrent(){
+    //   const currentPosition = startPosition
+    // }
+  
+      // * Add collider
+  function addCollider(position){
+    cells[position].classList.add(colliderClass)
+  }
+
+  function removeCollider(position){
+    cells[position].classList.remove(colliderClass)
+  }
+
 
 
   // * Start game
@@ -145,14 +148,41 @@ function init() {
 
 
 
+
+  // * Colliders moving across screen
+
+  function startCollider(){
+
+    moveCollider = setInterval(() => {
+
+      removeCollider(colliderCurrent)
+
+      // If collider is at far-left of board, then decrement position (re-add collider)
+      if(colliderCurrent % width !== 0){
+      colliderCurrent--
+      addCollider(colliderCurrent)
+      } else {
+      // Otherwise collider starts again at far-right
+      colliderCurrent = colliderStart
+      addCollider(colliderCurrent)
+      }
+    }, 100)
+  }
+
+  startCollider()
+
+
+
   // * Collision detection
 
   function collisionDetection(){
-    if (currentPosition === colliderStart){
+    if (currentPosition === colliderCurrent){
       removeFroggy(currentPosition)
       showPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
+      console.log('currentPosition --->', currentPosition)
+      console.log('colliderCurrent --->', colliderCurrent)
     } else {
       console.log('YOURE OK!')
     }
