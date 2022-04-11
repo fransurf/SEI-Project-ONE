@@ -100,7 +100,9 @@ function init() {
     addFroggy(startPosition)
     // restartCurrent()
     addCollider(colliderStart)
-
+    startCollider()
+    // collisionDetection()
+    froggyHome()
 
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
@@ -142,7 +144,8 @@ function init() {
 
     // Add froggy to new position + adds collision detection (one collider)
     addFroggy(currentPosition)
-    collisionDetection()
+    console.log(currentPosition)
+    collisionDetection() // recognises when player bangs into collider
     froggyHome()
   }
 
@@ -151,25 +154,26 @@ function init() {
 
   // * Colliders moving across screen
 
-  function startCollider(){
+  // function startCollider(){
 
-    moveCollider = setInterval(() => {
+  //   moveCollider = setInterval(() => {
 
-      removeCollider(colliderCurrent)
+  //     removeCollider(colliderCurrent)
 
-      // If collider is at far-left of board, then decrement position (re-add collider)
-      if(colliderCurrent % width !== 0){
-      colliderCurrent--
-      addCollider(colliderCurrent)
-      } else {
-      // Otherwise collider starts again at far-right
-      colliderCurrent = colliderStart
-      addCollider(colliderCurrent)
-      }
-    }, 100)
-  }
+  //     // If collider is at far-left of board, then decrement position (re-add collider)
+  //     if(colliderCurrent % width !== 0){
+  //     colliderCurrent--
+  //     addCollider(colliderCurrent)
+  //     } else {
+  //     // Otherwise collider starts again at far-right
+  //     colliderCurrent = colliderStart
+  //     addCollider(colliderCurrent)
+  //     }
+  //     collisionDetection()
+  //     console.log('colliderCurrent --->', colliderCurrent)
+  //   }, 1000)
 
-  startCollider()
+  // }
 
 
 
@@ -177,12 +181,14 @@ function init() {
 
   function collisionDetection(){
     if (currentPosition === colliderCurrent){
-      removeFroggy(currentPosition)
+
       showPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
       console.log('currentPosition --->', currentPosition)
       console.log('colliderCurrent --->', colliderCurrent)
+      removeFroggy(currentPosition)
+      removeCollider(colliderCurrent)
     } else {
       console.log('YOURE OK!')
     }
