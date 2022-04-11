@@ -24,9 +24,13 @@ function init() {
   // Froggy1 appear
   // In the end 3 froggy classes that deploy at different points
   const froggyClass = 'froggy'
+  // const froggyClass2 = 'froggy2'
+  // const froggyClass3 = 'froggy3'
   const startPosition = 104
   let currentPosition = startPosition
+  // const froggyHome = 'froggyHome'
   const froggy2Start = 101
+  // const froggy3Start = 107
 
 
   // * Collider set up
@@ -51,11 +55,11 @@ function init() {
       grid.appendChild(cell)
       cells.push(cell)
       
-      // Set up for Home spaces
+      // Set up Home spaces
       if (homePosition.includes(i)) {
         cells[i].classList.add(homeClass)
       }
-      // Set up for obstacles
+      // Set up Obstacles
       if (obstaclePosition.includes(i)) {
         cells[i].classList.add(obstacleClass)
       }
@@ -75,6 +79,13 @@ function init() {
     function removeFroggy(position){
       cells[position].classList.remove(froggyClass)
     }
+
+    // * Froggy Home
+    // function froggyHome(position){
+    //   cells[position].classList.remove(froggyHome)
+    // }
+
+
   
     // * Restart current position
     // function restartCurrent(){
@@ -95,13 +106,13 @@ function init() {
   // * Start game
 
   function startGame(){
-    
+
     removeFroggy(currentPosition)
     addFroggy(startPosition)
-    // restartCurrent()
+    currentPosition = startPosition
     addCollider(colliderStart)
-    startCollider()
-    // collisionDetection()
+    // startCollider()
+    colliderCurrent = colliderStart
     froggyHome()
 
     console.log('startPosition --->', startPosition)
@@ -146,7 +157,7 @@ function init() {
     addFroggy(currentPosition)
     console.log(currentPosition)
     collisionDetection() // recognises when player bangs into collider
-    froggyHome()
+    froggyHome() // froggy gets safely home - release new froggy
   }
 
 
@@ -154,26 +165,28 @@ function init() {
 
   // * Colliders moving across screen
 
-  // function startCollider(){
+  function startCollider(){
 
-  //   moveCollider = setInterval(() => {
+    moveCollider = setInterval(() => {
 
-  //     removeCollider(colliderCurrent)
+      removeCollider(colliderCurrent)
 
-  //     // If collider is at far-left of board, then decrement position (re-add collider)
-  //     if(colliderCurrent % width !== 0){
-  //     colliderCurrent--
-  //     addCollider(colliderCurrent)
-  //     } else {
-  //     // Otherwise collider starts again at far-right
-  //     colliderCurrent = colliderStart
-  //     addCollider(colliderCurrent)
-  //     }
-  //     collisionDetection()
-  //     console.log('colliderCurrent --->', colliderCurrent)
-  //   }, 1000)
+      // If collider is at far-left of board, then decrement position (re-add collider)
+      if(colliderCurrent % width !== 0){
+      colliderCurrent--
+      addCollider(colliderCurrent)
+      } else {
+      // Otherwise collider starts again at far-right
+      colliderCurrent = colliderStart
+      addCollider(colliderCurrent)
+      }
+      collisionDetection()
+      console.log('colliderCurrent --->', colliderCurrent)
+    }, 100)
+    
+    removeCollider(colliderCurrent)
 
-  // }
+  }
 
 
 
@@ -189,6 +202,8 @@ function init() {
       console.log('colliderCurrent --->', colliderCurrent)
       removeFroggy(currentPosition)
       removeCollider(colliderCurrent)
+      clearInterval(moveCollider)
+      // Stop player moving underneath overlay
     } else {
       console.log('YOURE OK!')
     }
@@ -199,12 +214,13 @@ function init() {
     // disable character!!
     collisionPopup.style.display = 'block'
     collisionOverlay.style.display = 'block'
+    
   }
 
   function hidePopUp(){
     collisionPopup.style.display = 'none'
     collisionOverlay.style.display = 'none'
-    removeFroggy(currentPosition)
+    // removeFroggy(currentPosition)
     startGame()
   }
 
@@ -213,9 +229,13 @@ function init() {
   // * Froggy gets Home
   function froggyHome(){
     if (homePosition.includes(currentPosition)){
+      const froggySafe = homePosition.indexOf(currentPosition)
+      console.log('homePosition.indexOf(currentPosition) -->', homePosition.indexOf(currentPosition))
       console.log('YOU MADE IT!!!')
       console.log('RELEASE THE HOUNDS!!!')
       addFroggy(froggy2Start)
+      // froggy2Start.id = 2
+      currentPosition = froggy2Start
     }
   }
   
