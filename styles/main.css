@@ -56,8 +56,6 @@ body {
 
 #grid div.collider {
   /* Find a way to make the div smaller without distorting the grid */
-  /* Do I need to create a grid the other way?????!!!! */
-
   /* background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
   border-radius: 7px; */
   border-radius: 50%;
@@ -70,12 +68,27 @@ body {
 
 }
 
+#grid div.collider2 {
+  /* Find a way to make the div smaller without distorting the grid */
+  /* background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
+  border-radius: 7px; */
+  border-radius: 50%;
+  border-color: rgb(111, 6, 192);
+  background-color: rgb(111, 6, 192);
+  box-shadow:
+    -10px 0 5px 5px rgb(111, 6, 192),  /* inner white */
+    -15px 0 20px 15px rgb(0, 38, 255), /* middle magenta */
+    -20px 0 50px 25px rgb(0, 255, 251); /* outer cyan */
+
+}
+
 
 #grid div.home {
   background-color: rgb(0, 132, 255);
   border: 5px solid rgb(5, 200, 14);
 } 
 
+/* Dont think I need this one as always remains .home now */
 #grid div.occupied {
   background-color: rgb(0, 132, 255);
   border: 5px solid rgb(5, 200, 14);
