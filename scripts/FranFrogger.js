@@ -27,18 +27,20 @@ function init() {
   const startPosition = 104
   let currentPosition = startPosition
   const occupiedClass = 'occupied'
-  const froggy2Start = 101
+  const froggy2Start = 104
   // const froggy3Start = 107
 
 
   // * Collider set up
   // Colldier1 appear
   const colliderClass = 'collider'
-  const colliderStart = 87
+  // const colliderStart = 98
+  const colliderStart = [32, 65, 98]
   let colliderCurrent = colliderStart
+
+
   const collisionPopup = document.querySelector('#bang-popup')
   const collisionOverlay = document.querySelector('#bang-overlay')
-  const collisionButton = document.querySelector('.close-btn')
   const closeButton = document.querySelectorAll('.close-btn')
 
   console.log('closeButton -->', closeButton)
@@ -74,8 +76,7 @@ function init() {
 
   createGrid()
   
-  // console.log('homePostion outside creation-->', homePosition.classList)
-  // console.log('obstaclePosition outside creation-->', obstaclePosition.classList)
+
 
   // * Add froggy1
   function addFroggy(position){
@@ -92,13 +93,14 @@ function init() {
     cells[position].classList.add(occupiedClass)
   }
 
-  // console.log('startPosition -->', startPosition .classList)
 
-
-  // * Restart current position
-  // function restartCurrent(){
-  //   const currentPosition = startPosition
-  // }
+  // * Removes occupied class on Home stations once game is restarted
+  // iterates through the homePosition array to remove added classes
+  function clearOccupied(){
+    homePosition.forEach((i) => {
+      cells[i].classList.remove(occupiedClass, froggyClass)
+    })
+  }
 
   // * Add collider
   function addCollider(position){
@@ -107,6 +109,19 @@ function init() {
 
   function removeCollider(position){
     cells[position].classList.remove(colliderClass)
+  }
+
+  // iterates through colliderStart array to add collider class to start positions
+  function addColliders(){
+    colliderStart.forEach((i) => {
+      cells[i].classList.add(colliderClass)
+    })
+  }
+
+  function removeColliders(){
+    cells.forEach((i, key) => {
+      cells[key].classList.remove(colliderClass)
+    })
   }
 
 
@@ -119,8 +134,11 @@ function init() {
     // removeFroggy(homePosition[]) // doesn't work - either wrong position or wrong syntax with empty array
     addFroggy(startPosition)
     currentPosition = startPosition
-    addCollider(colliderStart)
+    // addCollider(colliderStart)
     // startCollider()
+
+    addColliders()
+    startColliders()
     colliderCurrent = colliderStart
     froggySafe()
     
@@ -130,6 +148,7 @@ function init() {
   }
 
   startGame()
+
 
 
 
@@ -174,38 +193,59 @@ function init() {
   }
 
 
-
-
   // * Colliders moving across screen
 
-  function startCollider(){
 
+  function startColliders(){
+    // Creating an array of the coliders in order to be able to loop through each using forEach (below)
+    // Setting the current position to equal the start position & a new array that will be updated through the loops
+    const colliders = document.querySelectorAll('.collider')
+    let colliderCurrent = (colliderStart[0])
+    let colliderPosition = colliderStart.slice(0)
+
+    // Moving colliders based on a timed loop
     moveCollider = setInterval(() => {
+      colliders.forEach((collider, key) => {
+        // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
+        if (colliderStart[key] === colliderPosition[key]){
+          colliderCurrent = (colliderStart[key])
+        } else {
+          colliderCurrent = (colliderPosition[key])
+        }
 
-      removeCollider(colliderCurrent)
+        // Remove previous collider in order to update next position
+        removeCollider(colliderCurrent)
 
-      // If collider is at far-left of board, then decrement position (re-add collider)
-      if (colliderCurrent % width !== 0){
-        colliderCurrent--
-        addCollider(colliderCurrent)
-      } else {
-      // Otherwise collider starts again at far-right
-        colliderCurrent = colliderStart
-        addCollider(colliderCurrent)
-      }
-      collisionDetection()
-      console.log('colliderCurrent --->', colliderCurrent)
+        // If collider is at far-left of board, then decrement position (re-add collider)
+        // follow updating array (colliderPosition) 
+        if (colliderCurrent % width !== 0){
+          colliderCurrent--
+          colliderPosition[key] = colliderCurrent
+          addCollider(colliderCurrent)
+          // console.log('colliderPosition --->', colliderPosition)
+
+        } else {
+        // Otherwise collider starts again at far-right
+        // use colliderStart array
+          colliderCurrent = (colliderStart[key])
+          colliderPosition[key] = colliderStart[key]
+          addCollider(colliderCurrent)
+          
+          // console.log('RESTART LOOP')
+        }
+        // Detect collision
+        collisionDetection(colliderCurrent)
+
+      })
     }, 100)
     
-    removeCollider(colliderCurrent)
-
   }
 
 
 
   // * Collision detection
 
-  function collisionDetection(){
+  function collisionDetection(colliderCurrent){
     if (currentPosition === colliderCurrent){
 
       bangPopUp()
@@ -215,8 +255,8 @@ function init() {
       console.log('colliderCurrent --->', colliderCurrent)
       removeFroggy(currentPosition)
       // Stop player moving underneath overlay
-      removeCollider(colliderCurrent)
       clearInterval(moveCollider)
+      
       
     } else {
       console.log('YOURE OK!')
@@ -243,6 +283,9 @@ function init() {
     winPopup.style.display = 'none'
     collisionOverlay.style.display = 'none'
     // removeFroggy(currentPosition)
+    // Clear froggies from home
+    clearOccupied()
+    removeColliders()
     startGame()
   }
 
@@ -269,7 +312,7 @@ function init() {
   // * Win function
   function win(){
     // console.log('cells[homePosition[0]].classList', cells[homePosition[0]].classList)
-    // console.log('cells[homePosition].classList.', cells[homePosition].classList)
+    // console.log('cells[homePosition].classList', cells[homePosition].classList)
     if (cells[homePosition[0]].classList.contains('occupied') && cells[homePosition[1]].classList.contains('occupied') && cells[homePosition[2]].classList.contains('occupied')){
       console.log('YOU WIN!!! CRACK OUT THE CHAMPERS!!')
       showWinPopup()
