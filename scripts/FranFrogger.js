@@ -24,11 +24,9 @@ function init() {
   // Froggy1 appear
   // In the end 3 froggy classes that deploy at different points
   const froggyClass = 'froggy'
-  // const froggyClass2 = 'froggy2'
-  // const froggyClass3 = 'froggy3'
   const startPosition = 104
   let currentPosition = startPosition
-  // const froggyHome = 'froggyHome'
+  const occupiedClass = 'occupied'
   const froggy2Start = 101
   // const froggy3Start = 107
 
@@ -38,9 +36,15 @@ function init() {
   const colliderClass = 'collider'
   const colliderStart = 87
   let colliderCurrent = colliderStart
-  const collisionPopup = document.querySelector('.bang-popup')
+  const collisionPopup = document.querySelector('#bang-popup')
   const collisionOverlay = document.querySelector('#bang-overlay')
-  const collisionButton = document.querySelector('#close-btn')
+  const collisionButton = document.querySelector('.close-btn')
+  const closeButton = document.querySelectorAll('.close-btn')
+
+  console.log('closeButton -->', closeButton)
+
+  // * Win screen
+  const winPopup = document.querySelector('#win-popup')
 
 
   // ? Executions
@@ -59,6 +63,7 @@ function init() {
       if (homePosition.includes(i)) {
         cells[i].classList.add(homeClass)
       }
+
       // Set up Obstacles
       if (obstaclePosition.includes(i)) {
         cells[i].classList.add(obstacleClass)
@@ -69,30 +74,33 @@ function init() {
 
   createGrid()
   
+  // console.log('homePostion outside creation-->', homePosition.classList)
+  // console.log('obstaclePosition outside creation-->', obstaclePosition.classList)
 
-    // * Add froggy1
-    function addFroggy(position){
-      cells[position].classList.add(froggyClass)
-    }
-  
-    // * Remove froggy1
-    function removeFroggy(position){
-      cells[position].classList.remove(froggyClass)
-    }
+  // * Add froggy1
+  function addFroggy(position){
+    cells[position].classList.add(froggyClass)
+  }
 
-    // * Froggy Home
-    // function froggyHome(position){
-    //   cells[position].classList.remove(froggyHome)
-    // }
+  // * Remove froggy1
+  function removeFroggy(position){
+    cells[position].classList.remove(froggyClass)
+  }
+
+  // * Froggy Home
+  function addOccupied(position){
+    cells[position].classList.add(occupiedClass)
+  }
+
+  // console.log('startPosition -->', startPosition .classList)
 
 
-  
-    // * Restart current position
-    // function restartCurrent(){
-    //   const currentPosition = startPosition
-    // }
-  
-      // * Add collider
+  // * Restart current position
+  // function restartCurrent(){
+  //   const currentPosition = startPosition
+  // }
+
+  // * Add collider
   function addCollider(position){
     cells[position].classList.add(colliderClass)
   }
@@ -108,12 +116,14 @@ function init() {
   function startGame(){
 
     removeFroggy(currentPosition)
+    // removeFroggy(homePosition[]) // doesn't work - either wrong position or wrong syntax with empty array
     addFroggy(startPosition)
     currentPosition = startPosition
     addCollider(colliderStart)
     // startCollider()
     colliderCurrent = colliderStart
-    froggyHome()
+    froggySafe()
+    
 
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
@@ -138,6 +148,7 @@ function init() {
 
     // Control flow for movement based on key direction
     if (key === left && (currentPosition % width !== 0) && (obstaclePosition.includes(currentPosition - 1) === false)){
+      // restrict movement into occupied cells with [&& (cells[homePosition[]].classList.contains('occupied') === false)??]
       console.log('MOVE LEFT')
       currentPosition-- // position minus 1 grid box
     } else if (key === right && (currentPosition % width !== (width - 1)) && (obstaclePosition.includes(currentPosition + 1) === false)){
@@ -157,7 +168,9 @@ function init() {
     addFroggy(currentPosition)
     console.log(currentPosition)
     collisionDetection() // recognises when player bangs into collider
-    froggyHome() // froggy gets safely home - release new froggy
+    froggySafe() // froggy gets safely home - release new froggy
+
+    win()
   }
 
 
@@ -172,13 +185,13 @@ function init() {
       removeCollider(colliderCurrent)
 
       // If collider is at far-left of board, then decrement position (re-add collider)
-      if(colliderCurrent % width !== 0){
-      colliderCurrent--
-      addCollider(colliderCurrent)
+      if (colliderCurrent % width !== 0){
+        colliderCurrent--
+        addCollider(colliderCurrent)
       } else {
       // Otherwise collider starts again at far-right
-      colliderCurrent = colliderStart
-      addCollider(colliderCurrent)
+        colliderCurrent = colliderStart
+        addCollider(colliderCurrent)
       }
       collisionDetection()
       console.log('colliderCurrent --->', colliderCurrent)
@@ -195,30 +208,39 @@ function init() {
   function collisionDetection(){
     if (currentPosition === colliderCurrent){
 
-      showPopUp()
+      bangPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
       console.log('currentPosition --->', currentPosition)
       console.log('colliderCurrent --->', colliderCurrent)
       removeFroggy(currentPosition)
+      // Stop player moving underneath overlay
       removeCollider(colliderCurrent)
       clearInterval(moveCollider)
-      // Stop player moving underneath overlay
+      
     } else {
       console.log('YOURE OK!')
     }
 
   }
 
-  function showPopUp(){
+  function bangPopUp(){
     // disable character!!
     collisionPopup.style.display = 'block'
     collisionOverlay.style.display = 'block'
     
   }
 
+  function showWinPopup(){
+    // disable character!!
+    winPopup.style.display = 'block'
+    collisionOverlay.style.display = 'block'
+    
+  }
+
   function hidePopUp(){
     collisionPopup.style.display = 'none'
+    winPopup.style.display = 'none'
     collisionOverlay.style.display = 'none'
     // removeFroggy(currentPosition)
     startGame()
@@ -227,18 +249,33 @@ function init() {
 
 
   // * Froggy gets Home
-  function froggyHome(){
+  function froggySafe(){
     if (homePosition.includes(currentPosition)){
-      const froggySafe = homePosition.indexOf(currentPosition)
+      const froggyHomeIndex = homePosition.indexOf(currentPosition)
+      // adds class of froggyHome to homePosition
+      addOccupied(homePosition[froggyHomeIndex])
       console.log('homePosition.indexOf(currentPosition) -->', homePosition.indexOf(currentPosition))
-      console.log('YOU MADE IT!!!')
       console.log('RELEASE THE HOUNDS!!!')
+      // releases new froggy
       addFroggy(froggy2Start)
       // froggy2Start.id = 2
       currentPosition = froggy2Start
     }
+
   }
+
   
+
+  // * Win function
+  function win(){
+    // console.log('cells[homePosition[0]].classList', cells[homePosition[0]].classList)
+    // console.log('cells[homePosition].classList.', cells[homePosition].classList)
+    if (cells[homePosition[0]].classList.contains('occupied') && cells[homePosition[1]].classList.contains('occupied') && cells[homePosition[2]].classList.contains('occupied')){
+      console.log('YOU WIN!!! CRACK OUT THE CHAMPERS!!')
+      showWinPopup()
+    }
+  }
+
 
 
   // ? Events
@@ -247,7 +284,8 @@ function init() {
   document.addEventListener('keydown', handleKeyDown)
 
   // * Close Collision Pop up
-  collisionButton.addEventListener('click', hidePopUp)
+  closeButton.forEach(btn => btn.addEventListener('click', hidePopUp))
+  // animalButtons.forEach(btn => btn.addEventListener('click', handleMultiClick))
 
 }
 
