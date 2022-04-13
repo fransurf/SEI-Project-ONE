@@ -55,6 +55,16 @@ function init() {
   const closeButton = document.querySelectorAll('.close-btn')
 
 
+  // * Audio/sound effects
+  // const openingMusic = new Audio('scripts/PaperTrails.mp3')
+  const homeAudio = new Audio('scripts/EnterGame.mp3')
+  const gameMusic = new Audio('scripts/DiscoInfiltrator.mp3')
+  const collisionAudio = new Audio('scripts/Smash.mp3')
+  const loseMusic = new Audio('scripts/SillyGamesCrop.mp3')
+  const winAudio = new Audio('scripts/Cheering.mp3')
+
+
+
   // ? Executions
 
   // * Set up grid creation
@@ -69,9 +79,6 @@ function init() {
       
       // Set up Home spaces
       if (homePosition.includes(i)) {
-        // const homeDiv = document.createElement('div')
-        // homeDiv.className = homeClass
-        // cells[i].document.createElement('div').classList.add(homeClass)
         cells[i].classList.add(homeClass)
       }
 
@@ -136,11 +143,10 @@ function init() {
     })
   }
 
-  // Just changed this to console.log it - find out whether collider2Class is being removed
   function removeColliders(){
     cells.forEach((i, key) => {
       console.log('colliderClass, collider2Class', colliderClass, collider2Class)
-      cells[key].classList.remove(colliderClass, collider2Class) //, collider2Class
+      cells[key].classList.remove(colliderClass, collider2Class) 
     })
   }
 
@@ -163,16 +169,15 @@ function init() {
 
     addColliders()
     addColliders2()
-    // startColliders()
-    // startColliders2()
+    startColliders()
+    startColliders2()
     froggySafe()
+
+    gameMusic.play()
     
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
   }
-
-
-
 
 
 
@@ -218,7 +223,6 @@ function init() {
 
 
   // * Colliders moving across screen
-
 
   function startColliders(){
     // Creating an array of the coliders in order to be able to loop through each using forEach (below)
@@ -276,7 +280,6 @@ function init() {
     let collider2Current = (collider2Start[0])
     let collider2Position = collider2Start.slice(0)
 
-
     // Moving colliders based on a timed loop
     moveCollider2 = setInterval(() => {
       colliders2.forEach((collider, key) => {
@@ -286,11 +289,6 @@ function init() {
         } else {
           collider2Current = (collider2Position[key])
         }
-
-
-    console.log('collider2Start --->', collider2Start)
-    console.log('collider2Current start --->', collider2Current)
-    console.log('collider2Position start --->', collider2Position)
 
         // Remove previous collider in order to update next position
         removeCollider2(collider2Current)
@@ -309,11 +307,7 @@ function init() {
           collider2Current = (collider2Start[key])
           collider2Position[key] = collider2Start[key]
           addCollider2(collider2Current)
-          
 
-          console.log('collider2Current end --->', collider2Current)
-          console.log('collider2Position end --->', collider2Position)
-          // console.log('RESTART LOOP')
         }
         // Detect collision
         collisionDetection(collider2Current)
@@ -329,7 +323,8 @@ function init() {
   // Update this for collider2
   function collisionDetection(colliderCurrent, collider2Current){
     if (currentPosition === colliderCurrent || currentPosition === collider2Current){
-
+      gameMusic.pause()
+      collisionAudio.play()
       bangPopUp()
       console.log('BANG!')
       console.log('collisionPopup--->', collisionPopup)
@@ -340,9 +335,7 @@ function init() {
       // Stop player moving underneath overlay
       clearInterval(moveCollider)
       clearInterval(moveCollider2)
-    } else {
-      console.log('YOURE OK!')
-    }
+    } 
 
   }
 
@@ -351,10 +344,12 @@ function init() {
   function showOpeningPopUp(){
     openingPopup.style.display = 'block'
     openingOverlay.style.display = 'block'
+    // openingMusic.play()
   }
 
   function bangPopUp(){
     // disable character!!
+    loseMusic.play()
     collisionPopup.style.display = 'block'
     collisionOverlay.style.display = 'block'
     
@@ -364,6 +359,7 @@ function init() {
     // disable character!!
     winPopup.style.display = 'block'
     collisionOverlay.style.display = 'block'
+    removeColliders()
     
   }
 
@@ -375,6 +371,7 @@ function init() {
     collisionOverlay.style.display = 'none'
     // removeFroggy(currentPosition)
     // Clear froggies from home
+    loseMusic.pause()
     clearOccupied()
     removeColliders()
     console.log('removeColliders()', removeColliders)
@@ -386,6 +383,7 @@ function init() {
   // * Froggy gets Home
   function froggySafe(){
     if (homePosition.includes(currentPosition)){
+      homeAudio.play()
       const froggyHomeIndex = homePosition.indexOf(currentPosition)
       // adds class of froggyHome to homePosition
       addOccupied(homePosition[froggyHomeIndex])
@@ -402,7 +400,6 @@ function init() {
 
   }
 
-  
 
   // * Win function
   function win(){
@@ -410,6 +407,10 @@ function init() {
     // console.log('cells[homePosition].classList', cells[homePosition].classList)
     if (cells[homePosition[0]].classList.contains('occupied') && cells[homePosition[1]].classList.contains('occupied') && cells[homePosition[2]].classList.contains('occupied')){
       console.log('YOU WIN!!! CRACK OUT THE CHAMPERS!!')
+      gameMusic.pause()
+      winAudio.play()
+      // * WHY ISNT THIS REMOVING COLLIDERS HERE???????
+
       removeFroggy(froggy2Start)
       showWinPopUp()
     }
