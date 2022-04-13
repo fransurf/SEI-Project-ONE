@@ -1,5 +1,9 @@
 function init() {
 
+
+
+  window.addEventListener('load', showOpeningPopUp)
+  
   // ? Elements
   // ? Grid container
 
@@ -41,15 +45,14 @@ function init() {
   const collider2Class = 'collider2'
   const collider2Start = [66, 33]
 
-  // Collision popup elements
+
+  // * Grab popups
+  const openingPopup = document.querySelector('#opening-popup')
   const collisionPopup = document.querySelector('#bang-popup')
+  const winPopup = document.querySelector('#win-popup')
+  const openingOverlay = document.querySelector('#opening-overlay')
   const collisionOverlay = document.querySelector('#bang-overlay')
   const closeButton = document.querySelectorAll('.close-btn')
-
-
-
-  // * Win screen
-  const winPopup = document.querySelector('#win-popup')
 
 
   // ? Executions
@@ -160,15 +163,15 @@ function init() {
 
     addColliders()
     addColliders2()
-    // startColliders()
-    // startColliders2()
+    startColliders()
+    startColliders2()
     froggySafe()
     
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
   }
 
-  startGame()
+
 
 
 
@@ -343,6 +346,13 @@ function init() {
 
   }
 
+  // * Popup functions
+
+  function showOpeningPopUp(){
+    openingPopup.style.display = 'block'
+    openingOverlay.style.display = 'block'
+  }
+
   function bangPopUp(){
     // disable character!!
     collisionPopup.style.display = 'block'
@@ -350,7 +360,7 @@ function init() {
     
   }
 
-  function showWinPopup(){
+  function showWinPopUp(){
     // disable character!!
     winPopup.style.display = 'block'
     collisionOverlay.style.display = 'block'
@@ -358,8 +368,10 @@ function init() {
   }
 
   function hidePopUp(){
+    openingPopup.style.display = 'none'
     collisionPopup.style.display = 'none'
     winPopup.style.display = 'none'
+    openingOverlay.style.display = 'none'
     collisionOverlay.style.display = 'none'
     // removeFroggy(currentPosition)
     // Clear froggies from home
@@ -399,19 +411,21 @@ function init() {
     if (cells[homePosition[0]].classList.contains('occupied') && cells[homePosition[1]].classList.contains('occupied') && cells[homePosition[2]].classList.contains('occupied')){
       console.log('YOU WIN!!! CRACK OUT THE CHAMPERS!!')
       removeFroggy(froggy2Start)
-      showWinPopup()
+      showWinPopUp()
     }
 
   }
 
 
-
   // ? Events
+
+  // * Opening popup on window load
+  window.addEventListener('load', showOpeningPopUp)
 
   // * Key press
   document.addEventListener('keydown', handleKeyDown)
 
-  // * Close Collision Pop up
+  // * Close Pop ups
   closeButton.forEach(btn => btn.addEventListener('click', hidePopUp))
   // animalButtons.forEach(btn => btn.addEventListener('click', handleMultiClick))
 

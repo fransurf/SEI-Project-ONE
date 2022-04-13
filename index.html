@@ -2,33 +2,41 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>FRAN'S FROGGER</title>
+    <title>FROGGERS IN SPACE</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Grape+Nuts&display=swap" rel="stylesheet">
     <script src="scripts/FranFrogger.js" charset="utf-8"></script>
   </head>
   <body> 
-    <!-- <div id="opening-popup">
-      <div class="container">
-        <div id="bang-message">BANG!! YOU SUCK!! EXERCISE THAT GROWTH MINDSET & TRY AGAIN ---> </div> -->
-        <!-- <button class="close-btn">*DEEP BREATH* GROWTH</button>
+    <div id="opening-popup" class="popup">
+      <div id="opening-container" class="container">
+        <h1>Froggers in space</h1>
+        <p>Frogger was having a lovely time in Dalston with her friends >>> It was dark and Frogger needed a wee so she stumbled down an alley, and into a space/time vortex >>> All she wants is to get back to her night out... apparently Jeff and Susan are setting the dancefloor on fire!</p>
+        <p>Press the arrow keys to guide Froggy to the star tunnels >>> Watch out for the flying discoballs and blackholes >>> Oh, and Froggy's seeing tripple >>> Get 3 froggies home to win.</p>
+        <!-- <p>SELECT A PLAYER?</p> -->
+        <!-- <div class="bang-message">INSTRUCITONS </div> -->
+        <button class="close-btn">LET'S DO THIS</button>
       </div>
-    </div> -->
+    </div>
     <div class="grid-wrapper">
       <div id="grid"></div>
     </div>
-    <div id="bang-popup">
+    <div id="bang-popup" class="popup">
       <div class="container">
-        <div id="bang-message">BANG!! YOU SUCK!! EXERCISE THAT GROWTH MINDSET & TRY AGAIN ---> </div>
+        <div id="bang-message">OH DEAR. THAT WASN'T VERY CLEVER WAS IT? EXERCISE THAT GROWTH MINDSET & TRY AGAIN - </div>
         <button class="close-btn">*DEEP BREATH* GROWTH</button>
       </div>
     </div>
-    <div id="win-popup">
+    <div id="win-popup" class="popup">
       <div class="container">
         <div id="win-message">WOOO HOOOOOOOO!!! YOU NAILED IT! CRACK OUT THE CHAMPERS ---> </div>
         <button class="close-btn">THAT WAS FUN - GIMME ANOTHER GO</button>
       </div>
 
     </div>
-    <div id="bang-overlay"></div>
+    <div id="opening-overlay" class="overlay"></div>
+    <div id="bang-overlay" class="overlay"></div>
   </body>
 </html>
