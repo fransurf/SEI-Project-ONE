@@ -163,8 +163,8 @@ function init() {
 
     addColliders()
     addColliders2()
-    startColliders()
-    startColliders2()
+    // startColliders()
+    // startColliders2()
     froggySafe()
     
     console.log('startPosition --->', startPosition)
