@@ -35,7 +35,7 @@ function init() {
   // Collider1 appear
   const colliderClass = 'collider'
   const colliderStart = [32, 65, 98]
-  console.log('colliderStart.id', colliderStart.id)
+  // console.log('colliderStart.id', colliderStart.id)
 
   // Collider2 appear
   const collider2Class = 'collider2'
@@ -66,6 +66,9 @@ function init() {
       
       // Set up Home spaces
       if (homePosition.includes(i)) {
+        // const homeDiv = document.createElement('div')
+        // homeDiv.className = homeClass
+        // cells[i].document.createElement('div').classList.add(homeClass)
         cells[i].classList.add(homeClass)
       }
 
@@ -313,7 +316,7 @@ function init() {
         collisionDetection(collider2Current)
 
       })
-    }, 300)
+    }, 100)
     
   }
 
@@ -380,7 +383,10 @@ function init() {
       addFroggy(froggy2Start)
       // froggy2Start.id = 2
       currentPosition = froggy2Start
-    }
+    } 
+    // else if (cells[homePosition[0]].classList.contains('.froggy') && cells[homePosition[1]].classList.contains('.froggy') && cells[homePosition[2]].classList.contains('.froggy')){
+    //   win()
+    // }
 
   }
 
@@ -392,8 +398,10 @@ function init() {
     // console.log('cells[homePosition].classList', cells[homePosition].classList)
     if (cells[homePosition[0]].classList.contains('occupied') && cells[homePosition[1]].classList.contains('occupied') && cells[homePosition[2]].classList.contains('occupied')){
       console.log('YOU WIN!!! CRACK OUT THE CHAMPERS!!')
+      removeFroggy(froggy2Start)
       showWinPopup()
     }
+
   }
 
 

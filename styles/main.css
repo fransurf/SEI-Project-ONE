@@ -9,12 +9,10 @@
   align-items: center;
 } */
 
-
-
-
 body {
   height: 100vh;
   margin: 0 auto;
+  background-color: black; 
 }
 
 .grid-wrapper {
@@ -32,8 +30,8 @@ body {
   flex-wrap: wrap;
   height: 100%;
 /* CHANGE HEIGHT & WIDTH TO MORE APPROPRIATE */
-  height: 600px;
-  width: 800px;
+  height: 800px;
+  width: 1000px;
   background: url(http://apod.nasa.gov/apod/image/0603/coma_misti.jpg);
 }
 
@@ -47,58 +45,89 @@ body {
 }
 
 #grid div.froggy {
-  background-image: url('../assets/SriLanka.JPG');
+  background-image: url('../assets/PlayerF1.png');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
+  box-shadow: 5px 5px 20px 10px #00DDEB;
+  z-index: 6;
   cursor: pointer;
 }
 
 #grid div.collider {
-  /* Find a way to make the div smaller without distorting the grid */
-  /* background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
-  border-radius: 7px; */
-  border-radius: 50%;
+  /* border-radius: 50%;
   border-color: #fff;
   background-color: #fff;
   box-shadow:
-    5px 0 5px 5px #fff,  /* inner white */
-    15px 0 50px 30px #f0f, /* middle magenta */
-    25px 0 70px 45px #0ff; /* outer cyan */
-
+    5px 0 5px 5px #fff,  
+    15px 0 50px 30px #f0f, 
+    25px 0 70px 45px #0ff;  */
+    background-image: url('../assets/SparklyCircle.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 #grid div.collider2 {
-  /* Find a way to make the div smaller without distorting the grid */
-  /* background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
-  border-radius: 7px; */
-  border-radius: 50%;
+  /* border-radius: 50%;
   border-color: rgb(111, 6, 192);
   background-color: rgb(111, 6, 192);
   box-shadow:
-    -10px 0 5px 5px rgb(111, 6, 192),  /* inner white */
-    -15px 0 20px 15px rgb(0, 38, 255), /* middle magenta */
-    -20px 0 50px 25px rgb(0, 255, 251); /* outer cyan */
-
+    -10px 0 5px 5px rgb(111, 6, 192),
+    -15px 0 20px 15px rgb(0, 38, 255), 
+    -20px 0 50px 25px rgb(0, 255, 251);  */
+    background-image: url('../assets/SpinningCropped.gif');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
 }
 
 
 #grid div.home {
-  background-color: rgb(0, 132, 255);
-  border: 5px solid rgb(5, 200, 14);
+  background-image: url('../assets/HomeOption2.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* border-radius: 50%; */
+  /* border-color: #fff; */
+  /* background-color: #fff; */
+  box-shadow:
+    5px 0 5px 5px #0ff,  
+    15px 0 50px 30px #f0f, 
+    25px 0 70px 45px #0ff; 
 } 
+
+/* MAY BE ABLE TO EXPAND IMAGE OUTSIDE GRID CONTAINER */
+/* .class:before {
+  content: "";
+  display: inline-block;
+  width: 92px;
+  height: 60px;
+  background-image: url("/path/to/img.png");
+  background-repeat: no-repeat;
+  position: relative;
+  left: -5px; //adjust your positioning as necessary
+} */
 
 /* Dont think I need this one as always remains .home now */
 #grid div.occupied {
-  background-color: rgb(0, 132, 255);
-  border: 5px solid rgb(5, 200, 14);
+  background-image: url('../assets/PlayerF1.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* z-index: 1; */
 } 
 
 #grid div.obstacle {
-  background-color: white; 
+  background-color: black; 
   border-radius: 7px;
-  box-shadow: 5px 5px 20px 10px #00DDEB;
+  /* box-shadow: 5px 5px 20px 10px #00DDEB; */
+  box-shadow: 5px 5px 20px 10px #eb0095;
   transition: background-color ;
+  background-image: url('../assets/PurpleSwirlCropped.gif');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 } 
 
 #bang-popup {
