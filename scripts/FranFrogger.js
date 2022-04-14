@@ -176,7 +176,7 @@ function init() {
 
     froggySafe()
 
-    gameMusic.play()
+    // gameMusic.play()
 
   }
 
@@ -482,6 +482,7 @@ function init() {
 
       removeFroggy(froggy2Start)
       showWinPopUp()
+      removeColliders()
     }
 
   }
