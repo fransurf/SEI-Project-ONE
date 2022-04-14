@@ -176,7 +176,7 @@ function init() {
 
     froggySafe()
 
-    // gameMusic.play()
+    gameMusic.play()
 
   }
 
