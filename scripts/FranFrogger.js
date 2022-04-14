@@ -130,7 +130,9 @@ function init() {
   function removeColliders(){
     cells.forEach((i, key) => {
       console.log('cells[key].class before remove --->', key, cells[key].id, cells[key].className)
-      cells[key].classList.remove(colliderClass, collider2Class, collider3Class) 
+      cells[key].classList.remove(colliderClass) 
+      cells[key].classList.remove(collider2Class) 
+      cells[key].classList.remove(collider3Class) 
       console.log('cells[key].class AFTER remove --->', key, cells[key].id, cells[key].className)
     })
   }
@@ -294,7 +296,7 @@ function init() {
     // removeColliders()
 
     // Moving colliders based on a timed loop
-     moveCollider2 = setInterval(() => {
+    moveCollider2 = setInterval(() => {
       colliders2.forEach((collider, key) => {
         // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
         if (collider2Start[key] === collider2Position[key]){
@@ -392,7 +394,7 @@ function init() {
       console.log('BANG!')
       removeFroggy(currentPosition)
 
-      // Stop player moving underneath overlay
+
       removeColliders()
       colliderCurrent = null
       collider2Current = null
