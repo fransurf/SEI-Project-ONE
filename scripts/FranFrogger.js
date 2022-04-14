@@ -22,53 +22,8 @@ function init() {
   const homePosition = [2, 5, 8] 
   const obstacleClass = 'obstacle'
   const obstaclePosition = [45, 46, 49, 52, 53]
-  
-
-  // * Character set up
-  // Froggy1 appear
-  // In the end 3 froggy classes that deploy at different points
-  const froggyClass = 'froggy'
-  const startPosition = 104
-  let currentPosition = startPosition
-  const occupiedClass = 'occupied'
-  const froggy2Start = 104
-  // const froggy3Start = 107
-
-
-  // * Collider set up
-  // Collider1 appear
-  const colliderClass = 'collider'
-  const colliderStart = [32, 65, 98]
-  // console.log('colliderStart.id', colliderStart.id)
-
-  // Collider2 appear
-  const collider2Class = 'collider2'
-  const collider2Start = [66, 33]
-
-
-  // * Grab popups
-  const openingPopup = document.querySelector('#opening-popup')
-  const collisionPopup = document.querySelector('#bang-popup')
-  const winPopup = document.querySelector('#win-popup')
-  const openingOverlay = document.querySelector('#opening-overlay')
-  const collisionOverlay = document.querySelector('#bang-overlay')
-  const closeButton = document.querySelectorAll('.close-btn')
-
-
-  // * Audio/sound effects
-  // const openingMusic = new Audio('scripts/PaperTrails.mp3')
-  const homeAudio = new Audio('scripts/EnterGame.mp3')
-  const gameMusic = new Audio('scripts/DiscoInfiltrator.mp3')
-  const collisionAudio = new Audio('scripts/Smash.mp3')
-  const loseMusic = new Audio('scripts/SillyGamesCrop.mp3')
-  const winAudio = new Audio('scripts/Cheering.mp3')
-
-
-
-  // ? Executions
 
   // * Set up grid creation
-  
   function createGrid(){
     for (let i = 0; i < cellCount; i++){
       const cell = document.createElement('div')
@@ -92,24 +47,32 @@ function init() {
 
   createGrid()
   
-
+  
+  // * Character set up
+  // Froggy1 appear
+  // In the end 3 froggy classes that deploy at different points
+  const froggyClass = 'froggy'
+  const startPosition = 104
+  let currentPosition = startPosition
+  const occupiedClass = 'occupied'
+  const froggy2Start = 104
+  // const froggy3Start = 107
 
   // * Add froggy1
   function addFroggy(position){
     cells[position].classList.add(froggyClass)
   }
-
+  
   // * Remove froggy1
   function removeFroggy(position){
     cells[position].classList.remove(froggyClass)
   }
-
+  
   // * Froggy Home
   function addOccupied(position){
     cells[position].classList.add(occupiedClass)
   }
-
-
+  
   // * Removes occupied class on Home stations once game is restarted
   // iterates through the homePosition array to remove added classes
   function clearOccupied(){
@@ -118,43 +81,95 @@ function init() {
     })
   }
 
-  // * Add/Remove colliders
+
+  // * Collider set up
+  // Colliders appear
+  const colliderClass = 'collider'
+  const colliderStart = [32, 98] //65, 
+  const collider2Class = 'collider2'
+  const collider2Start = [66, 33]
+  const collider3Class = 'collider3'
+  const collider3Start = [65, 21]
+
+
+  // * Add colliders
   function addCollider(position){
     cells[position].classList.add(colliderClass)
   }
-
-  function removeCollider(position){
-    cells[position].classList.remove(colliderClass)
-  }
-
   function addCollider2(position){
     cells[position].classList.add(collider2Class)
   }
+  function addCollider3(position){
+    cells[position].classList.add(collider3Class)
+  }
 
+  // * Add colliders
+  function removeCollider(position){
+    cells[position].classList.remove(colliderClass)
+  }
   function removeCollider2(position){
     cells[position].classList.remove(collider2Class)
+  }
+  function removeCollider3(position){
+    cells[position].classList.remove(collider3Class)
   }
 
   // iterates through colliderStart array to add collider class to start positions
   function addColliders(){
     colliderStart.forEach((i) => {
       cells[i].classList.add(colliderClass)
-      console.log('cells[i].id', cells[i].id)
+      // console.log('cells[i].id', cells[i].id)
     })
-  }
-
-  function removeColliders(){
-    cells.forEach((i, key) => {
-      console.log('colliderClass, collider2Class', colliderClass, collider2Class)
-      cells[key].classList.remove(colliderClass, collider2Class) 
-    })
-  }
-
-  function addColliders2(){
     collider2Start.forEach((i) => {
       cells[i].classList.add(collider2Class)
     })
+    collider3Start.forEach((i) => {
+      cells[i].classList.add(collider3Class)
+    })
   }
+
+  // function addColliders2(){
+  //   collider2Start.forEach((i) => {
+  //     cells[i].classList.add(collider2Class)
+  //   })
+  // }
+
+  function removeColliders(){
+    cells.forEach((i, key) => {
+      // console.log('REMOVE colliderClass, collider2Class, collider3Class', colliderClass, collider2Class, collider3Class)
+      cells[key].classList.remove(colliderClass, collider2Class, collider3Class) 
+    })
+  }
+
+
+  // * Grab popups
+  const openingPopup = document.querySelector('#opening-popup')
+  const collisionPopup = document.querySelector('#bang-popup')
+  const winPopup = document.querySelector('#win-popup')
+  const openingOverlay = document.querySelector('#opening-overlay')
+  const collisionOverlay = document.querySelector('#bang-overlay')
+  const closeButton = document.querySelectorAll('.close-btn')
+
+
+  // * Audio/sound effects
+  // const openingMusic = new Audio('scripts/PaperTrails.mp3')
+  const homeAudio = new Audio('scripts/EnterGame.mp3')
+  const gameMusic = new Audio('scripts/DiscoInfiltrator.mp3')
+  const collisionAudio = new Audio('scripts/Smash.mp3')
+  const loseMusic = new Audio('scripts/SillyGamesCrop.mp3')
+  const winAudio = new Audio('scripts/Cheering.mp3')
+
+
+
+  // ? Executions
+
+
+
+
+
+
+
+
 
 
 
@@ -168,9 +183,10 @@ function init() {
     currentPosition = startPosition
 
     addColliders()
-    addColliders2()
+    // addColliders2()
     startColliders()
     startColliders2()
+    startColliders3()
     froggySafe()
 
     gameMusic.play()
@@ -280,6 +296,9 @@ function init() {
     let collider2Current = (collider2Start[0])
     let collider2Position = collider2Start.slice(0)
 
+    console.log('colliderCurrent --->', collider2Current)
+    console.log('colliderPosition --->', collider2Position)
+
     // Moving colliders based on a timed loop
     moveCollider2 = setInterval(() => {
       colliders2.forEach((collider, key) => {
@@ -317,6 +336,56 @@ function init() {
     
   }
 
+  function startColliders3(){
+    // Creating an array of the coliders in order to be able to loop through each using forEach (below)
+    // Setting the current position to equal the start position & a new array that will be updated through the loops
+    const colliders3 = document.querySelectorAll('.collider3')
+    let collider3Current = (collider3Start[0])
+    let collider3Position = collider3Start.slice(0)
+
+    console.log('collider3Current -->', collider3Current)
+    console.log('collider3Position -->', collider3Position)
+
+    // Moving colliders based on a timed loop
+    moveCollider3 = setInterval(() => {
+      colliders3.forEach((collider, key) => {
+        // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
+        if (collider3Start[key] === collider3Position[key]){
+          collider3Current = (collider3Start[key])
+        } else {
+          collider3Current = (collider3Position[key])
+        }
+
+        console.log('collider3Current within moveCollider3 -->', collider3Current)
+        console.log('collider3Position within moveCollider3 -->', collider3Position)
+
+        // Remove previous collider in order to update next position
+        removeCollider3(collider3Current)
+
+        // If collider is not at far-left of board, then increase position (re-add collider)
+        // follow updating array (colliderPosition) 
+        if (collider3Current % width !== 0){
+          collider3Current--
+          collider3Position[key] = collider3Current
+          addCollider3(collider3Current)
+          // console.log('colliderPosition --->', colliderPosition)
+
+        } else {
+        // Otherwise collider starts again at far-right
+        // use colliderStart array
+          collider3Current = (collider3Start[key])
+          collider3Position[key] = collider3Start[key]
+          addCollider3(collider3Current)
+
+        }
+        // Detect collision
+        collisionDetection(collider3Current)
+
+      })
+    }, 100)
+    
+  }
+
 
 
   // * Collision detection
@@ -331,10 +400,12 @@ function init() {
       console.log('currentPosition --->', currentPosition)
       console.log('colliderCurrent --->', colliderCurrent)
       console.log('collider2Current --->', collider2Current)
+      console.log('collider3Current --->', collider3Current)
       removeFroggy(currentPosition)
       // Stop player moving underneath overlay
       clearInterval(moveCollider)
       clearInterval(moveCollider2)
+      clearInterval(moveCollider3)
     } 
 
   }

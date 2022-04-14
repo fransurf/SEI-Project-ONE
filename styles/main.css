@@ -65,13 +65,6 @@ body {
 }
 
 #grid div.collider {
-  /* border-radius: 50%;
-  border-color: #fff;
-  background-color: #fff;
-  box-shadow:
-    5px 0 5px 5px #fff,  
-    15px 0 50px 30px #f0f, 
-    25px 0 70px 45px #0ff;  */
     background-image: url('../assets/SparklyCircle.png');
     background-repeat: no-repeat;
     background-size: contain;
@@ -79,17 +72,17 @@ body {
 }
 
 #grid div.collider2 {
-  /* border-radius: 50%;
-  border-color: rgb(111, 6, 192);
-  background-color: rgb(111, 6, 192);
-  box-shadow:
-    -10px 0 5px 5px rgb(111, 6, 192),
-    -15px 0 20px 15px rgb(0, 38, 255), 
-    -20px 0 50px 25px rgb(0, 255, 251);  */
     background-image: url('../assets/SpinningCropped.gif');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+}
+
+#grid div.collider3 {
+  background-image: url('../assets/NeonCircleSimple.jpeg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 
