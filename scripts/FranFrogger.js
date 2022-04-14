@@ -85,11 +85,11 @@ function init() {
   // * Collider set up
   // Colliders appear
   const colliderClass = 'collider'
-  const colliderStart = [32, 98] //65, 
+  const colliderStart = [32, 65, 98] 
   const collider2Class = 'collider2'
   const collider2Start = [66, 33]
   const collider3Class = 'collider3'
-  const collider3Start = [65, 21]
+  const collider3Start = [21, 87]
 
 
   // * Add colliders
@@ -136,7 +136,8 @@ function init() {
 
   function removeColliders(){
     cells.forEach((i, key) => {
-      // console.log('REMOVE colliderClass, collider2Class, collider3Class', colliderClass, collider2Class, collider3Class)
+      console.log('REMOVE colliderClass, collider2Class, collider3Class', colliderClass, collider2Class, collider3Class)
+      console.log('removeColliders', removeColliders)
       cells[key].classList.remove(colliderClass, collider2Class, collider3Class) 
     })
   }
@@ -164,15 +165,6 @@ function init() {
   // ? Executions
 
 
-
-
-
-
-
-
-
-
-
   // * Start game
 
   function startGame(){
@@ -182,14 +174,16 @@ function init() {
     addFroggy(startPosition)
     currentPosition = startPosition
 
+    removeColliders()
+    console.log('removeColliders()', removeColliders)
     addColliders()
     // addColliders2()
-    startColliders()
+    // startColliders()
     startColliders2()
     startColliders3()
     froggySafe()
 
-    gameMusic.play()
+    // gameMusic.play()
     
     console.log('startPosition --->', startPosition)
     console.log('currentPosition --->', currentPosition)
@@ -296,9 +290,6 @@ function init() {
     let collider2Current = (collider2Start[0])
     let collider2Position = collider2Start.slice(0)
 
-    console.log('colliderCurrent --->', collider2Current)
-    console.log('colliderPosition --->', collider2Position)
-
     // Moving colliders based on a timed loop
     moveCollider2 = setInterval(() => {
       colliders2.forEach((collider, key) => {
@@ -343,9 +334,6 @@ function init() {
     let collider3Current = (collider3Start[0])
     let collider3Position = collider3Start.slice(0)
 
-    console.log('collider3Current -->', collider3Current)
-    console.log('collider3Position -->', collider3Position)
-
     // Moving colliders based on a timed loop
     moveCollider3 = setInterval(() => {
       colliders3.forEach((collider, key) => {
@@ -356,9 +344,6 @@ function init() {
           collider3Current = (collider3Position[key])
         }
 
-        console.log('collider3Current within moveCollider3 -->', collider3Current)
-        console.log('collider3Position within moveCollider3 -->', collider3Position)
-
         // Remove previous collider in order to update next position
         removeCollider3(collider3Current)
 
@@ -368,7 +353,6 @@ function init() {
           collider3Current--
           collider3Position[key] = collider3Current
           addCollider3(collider3Current)
-          // console.log('colliderPosition --->', colliderPosition)
 
         } else {
         // Otherwise collider starts again at far-right
@@ -382,24 +366,19 @@ function init() {
         collisionDetection(collider3Current)
 
       })
-    }, 100)
+    }, 500)
     
   }
 
 
 
   // * Collision detection
-  // Update this for collider2
-  function collisionDetection(colliderCurrent, collider2Current){
-    if (currentPosition === colliderCurrent || currentPosition === collider2Current){
+  function collisionDetection(colliderCurrent, collider2Current, collider3Current){
+    if (currentPosition === colliderCurrent || currentPosition === collider2Current || currentPosition === collider3Current){
       gameMusic.pause()
       collisionAudio.play()
       bangPopUp()
       console.log('BANG!')
-      console.log('collisionPopup--->', collisionPopup)
-      console.log('currentPosition --->', currentPosition)
-      console.log('colliderCurrent --->', colliderCurrent)
-      console.log('collider2Current --->', collider2Current)
       console.log('collider3Current --->', collider3Current)
       removeFroggy(currentPosition)
       // Stop player moving underneath overlay
@@ -444,8 +423,8 @@ function init() {
     // Clear froggies from home
     loseMusic.pause()
     clearOccupied()
-    removeColliders()
-    console.log('removeColliders()', removeColliders)
+    // removeColliders()
+    // console.log('removeColliders()', removeColliders)
     startGame()
   }
 
