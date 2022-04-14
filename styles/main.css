@@ -72,7 +72,7 @@ body {
 }
 
 #grid div.collider2 {
-    background-image: url('../assets/SpinningCropped.gif');
+    background-image: url('../assets/SpinningDiscoCompressed.gif');
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -113,7 +113,7 @@ body {
   /* box-shadow: 5px 5px 20px 10px #00DDEB; */
   box-shadow: 5px 5px 20px 10px #eb0095;
   transition: background-color ;
-  background-image: url('../assets/PurpleSwirlCropped.gif');
+  background-image: url('../assets/PurpleSwirlCroppedCompressed.gif');
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;

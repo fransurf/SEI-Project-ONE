@@ -27,7 +27,7 @@ function init() {
   function createGrid(){
     for (let i = 0; i < cellCount; i++){
       const cell = document.createElement('div')
-      cell.innerText = i
+      // cell.innerText = i
       cell.id = i
       grid.appendChild(cell)
       cells.push(cell)
@@ -41,6 +41,8 @@ function init() {
       if (obstaclePosition.includes(i)) {
         cells[i].classList.add(obstacleClass)
       }
+
+      console.log('cell.id', i, cell.id, cell.className)
     }
     
   }
@@ -58,17 +60,18 @@ function init() {
   const froggy2Start = 104
   // const froggy3Start = 107
 
-  // * Add froggy1
+  // * Add froggy
   function addFroggy(position){
     cells[position].classList.add(froggyClass)
   }
   
-  // * Remove froggy1
+  // * Remove froggy
   function removeFroggy(position){
     cells[position].classList.remove(froggyClass)
   }
   
   // * Froggy Home
+  // adds occupied class when froggy arrives to home cell
   function addOccupied(position){
     cells[position].classList.add(occupiedClass)
   }
@@ -83,7 +86,7 @@ function init() {
 
 
   // * Collider set up
-  // Colliders appear
+  // Colliders variables
   const colliderClass = 'collider'
   const colliderStart = [32, 65, 98] 
   const collider2Class = 'collider2'
@@ -91,29 +94,7 @@ function init() {
   const collider3Class = 'collider3'
   const collider3Start = [21, 87]
 
-
   // * Add colliders
-  function addCollider(position){
-    cells[position].classList.add(colliderClass)
-  }
-  function addCollider2(position){
-    cells[position].classList.add(collider2Class)
-  }
-  function addCollider3(position){
-    cells[position].classList.add(collider3Class)
-  }
-
-  // * Add colliders
-  function removeCollider(position){
-    cells[position].classList.remove(colliderClass)
-  }
-  function removeCollider2(position){
-    cells[position].classList.remove(collider2Class)
-  }
-  function removeCollider3(position){
-    cells[position].classList.remove(collider3Class)
-  }
-
   // iterates through colliderStart array to add collider class to start positions
   function addColliders(){
     colliderStart.forEach((i) => {
@@ -128,11 +109,6 @@ function init() {
     })
   }
 
-  // function addColliders2(){
-  //   collider2Start.forEach((i) => {
-  //     cells[i].classList.add(collider2Class)
-  //   })
-  // }
 
   function removeColliders(){
     cells.forEach((i, key) => {
@@ -175,10 +151,8 @@ function init() {
     currentPosition = startPosition
 
     removeColliders()
-    console.log('removeColliders()', removeColliders)
     addColliders()
-    // addColliders2()
-    // startColliders()
+    startColliders()
     startColliders2()
     startColliders3()
     froggySafe()
@@ -234,12 +208,21 @@ function init() {
 
   // * Colliders moving across screen
 
+ 
+
   function startColliders(){
     // Creating an array of the coliders in order to be able to loop through each using forEach (below)
     // Setting the current position to equal the start position & a new array that will be updated through the loops
     const colliders = document.querySelectorAll('.collider')
     let colliderCurrent = (colliderStart[0])
     let colliderPosition = colliderStart.slice(0)
+    const addCollider = (position) => { 
+      cells[position].classList.add(colliderClass) 
+    }
+    const removeCollider = (position) => { 
+      cells[position].classList.remove(colliderClass) 
+    }
+    
 
     // Moving colliders based on a timed loop
     moveCollider = setInterval(() => {
@@ -264,7 +247,7 @@ function init() {
           colliderCurrent--
           colliderPosition[key] = colliderCurrent
           addCollider(colliderCurrent)
-          // console.log('colliderPosition --->', colliderPosition)
+
 
         } else {
         // Otherwise collider starts again at far-right
@@ -287,40 +270,46 @@ function init() {
     // Creating an array of the coliders in order to be able to loop through each using forEach (below)
     // Setting the current position to equal the start position & a new array that will be updated through the loops
     const colliders2 = document.querySelectorAll('.collider2')
-    let collider2Current = (collider2Start[0])
+    let colliderCurrent = (collider2Start[0])
     let collider2Position = collider2Start.slice(0)
+    const addCollider = (position) => { 
+      cells[position].classList.add(collider2Class) 
+    }
+    const removeCollider = (position) => { 
+      cells[position].classList.remove(collider2Class) 
+    }
 
     // Moving colliders based on a timed loop
-    moveCollider2 = setInterval(() => {
+    const moveCollider2 = setInterval(() => {
       colliders2.forEach((collider, key) => {
         // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
         if (collider2Start[key] === collider2Position[key]){
-          collider2Current = (collider2Start[key])
+          colliderCurrent = (collider2Start[key])
         } else {
-          collider2Current = (collider2Position[key])
+          colliderCurrent = (collider2Position[key])
         }
 
         // Remove previous collider in order to update next position
-        removeCollider2(collider2Current)
+        removeCollider(colliderCurrent)
 
         // If collider is not at far-left of board, then increase position (re-add collider)
         // follow updating array (colliderPosition) 
-        if (collider2Current % width !== (width - 1)){
-          collider2Current++
-          collider2Position[key] = collider2Current
-          addCollider2(collider2Current)
+        if (colliderCurrent % width !== (width - 1)){
+          colliderCurrent++
+          collider2Position[key] = colliderCurrent
+          addCollider(colliderCurrent)
           // console.log('colliderPosition --->', colliderPosition)
 
         } else {
         // Otherwise collider starts again at far-right
         // use colliderStart array
-          collider2Current = (collider2Start[key])
+          colliderCurrent = (collider2Start[key])
           collider2Position[key] = collider2Start[key]
-          addCollider2(collider2Current)
+          addCollider(colliderCurrent)
 
         }
         // Detect collision
-        collisionDetection(collider2Current)
+        collisionDetection(colliderCurrent)
 
       })
     }, 100)
@@ -331,60 +320,117 @@ function init() {
     // Creating an array of the coliders in order to be able to loop through each using forEach (below)
     // Setting the current position to equal the start position & a new array that will be updated through the loops
     const colliders3 = document.querySelectorAll('.collider3')
-    let collider3Current = (collider3Start[0])
+    let colliderCurrent = (collider3Start[0])
     let collider3Position = collider3Start.slice(0)
+    const addCollider = (position) => { 
+      cells[position].classList.add(collider3Class) 
+    }
+    const removeCollider = (position) => { 
+      cells[position].classList.remove(collider3Class) 
+    }
 
     // Moving colliders based on a timed loop
     moveCollider3 = setInterval(() => {
       colliders3.forEach((collider, key) => {
         // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
         if (collider3Start[key] === collider3Position[key]){
-          collider3Current = (collider3Start[key])
+          colliderCurrent = (collider3Start[key])
         } else {
-          collider3Current = (collider3Position[key])
+          colliderCurrent = (collider3Position[key])
         }
 
         // Remove previous collider in order to update next position
-        removeCollider3(collider3Current)
+        removeCollider(colliderCurrent)
 
         // If collider is not at far-left of board, then increase position (re-add collider)
         // follow updating array (colliderPosition) 
-        if (collider3Current % width !== 0){
-          collider3Current--
-          collider3Position[key] = collider3Current
-          addCollider3(collider3Current)
+        if (colliderCurrent % width !== 0){
+          colliderCurrent--
+          collider3Position[key] = colliderCurrent
+          addCollider(colliderCurrent)
 
         } else {
         // Otherwise collider starts again at far-right
         // use colliderStart array
-          collider3Current = (collider3Start[key])
+          colliderCurrent = (collider3Start[key])
           collider3Position[key] = collider3Start[key]
-          addCollider3(collider3Current)
+          addCollider(colliderCurrent)
 
         }
         // Detect collision
-        collisionDetection(collider3Current)
+        collisionDetection(colliderCurrent)
 
       })
     }, 500)
-    
+  
   }
 
 
 
+  // let moveCollider3 = setInterval(startColliders3, 500)
+
+  // function startColliders3(){
+  //   const colliders3 = document.querySelectorAll('.collider3')
+  //   let collider3Current = (collider3Start[0])
+  //   let collider3Position = collider3Start.slice(0)
+
+  //   colliders3.forEach((collider, key) => {
+
+  //     // if statement tracking updating array (colliderPosition) for every loop except for the first one (& every loop that returns to startPosition)
+  //     if (collider3Start[key] === collider3Position[key]){
+  //       collider3Current = (collider3Start[key])
+  //     } else {
+  //       collider3Current = (collider3Position[key])
+  //     }
+
+  //     // Remove previous collider in order to update next position
+  //     removeCollider3(collider3Current)
+
+  //     // If collider is not at far-left of board, then increase position (re-add collider)
+  //     // follow updating array (colliderPosition) 
+  //     if (collider3Current % width !== 0){
+  //       collider3Current--
+  //       collider3Position[key] = collider3Current
+  //       addCollider3(collider3Current)
+
+  //     } else {
+  //     // Otherwise collider starts again at far-right
+  //     // use colliderStart array
+  //       collider3Current = (collider3Start[key])
+  //       collider3Position[key] = collider3Start[key]
+  //       addCollider3(collider3Current)
+
+  //     }
+  //     // Detect collision
+  //     collisionDetection(collider3Current)
+
+  //   })
+  // }
+
+  // function stopColliders3(){
+  //   clearInterval(moveCollider3)
+  //   moveCollider3 = null
+
+  // }
+
+// * put these back in Collision Detection
+  //collider2Current, collider3Current
+  // || currentPosition === collider2Current || currentPosition === collider3Current
+
   // * Collision detection
-  function collisionDetection(colliderCurrent, collider2Current, collider3Current){
-    if (currentPosition === colliderCurrent || currentPosition === collider2Current || currentPosition === collider3Current){
+  function collisionDetection(colliderCurrent){
+    if (currentPosition === colliderCurrent){
       gameMusic.pause()
       collisionAudio.play()
       bangPopUp()
       console.log('BANG!')
-      console.log('collider3Current --->', collider3Current)
+      // console.log('collider3Current --->', collider3Current)
       removeFroggy(currentPosition)
       // Stop player moving underneath overlay
-      clearInterval(moveCollider)
-      clearInterval(moveCollider2)
-      clearInterval(moveCollider3)
+      // clearInterval(moveCollider)
+      // clearInterval(moveCollider2)
+      // // clearInterval(moveCollider3)
+      // stopColliders3()
     } 
 
   }
